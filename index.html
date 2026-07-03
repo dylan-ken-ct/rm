@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2B Department Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: #F5F5F3;
+    color: #1A1A1A;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .page { max-width: 720px; margin: 0 auto; }
+
+  .survey-header {
+    background: #E87722;
+    border-radius: 12px;
+    padding: 2rem 2rem 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .survey-header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .survey-header p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.65;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 1.25rem;
+  }
+  .info-field label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+  }
+  .info-field input {
+    width: 100%;
+    background: rgba(255,255,255,0.15);
+    border: 0.5px solid rgba(255,255,255,0.35);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #fff;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+  }
+  .info-field input::placeholder { color: rgba(255,255,255,0.5); }
+  .info-field input:focus {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.7);
+  }
+
+  .section {
+    background: #fff;
+    border: 0.5px solid #E0DED8;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #E87722;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #1A1A1A;
+    margin-bottom: 4px;
+  }
+  .section-hint {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+
+  /* Yes/No tables */
+  .yn-table { width: 100%; border-collapse: collapse; }
+  .yn-table th {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+    padding: 6px 10px;
+    text-align: left;
+    border-bottom: 0.5px solid #E0DED8;
+  }
+  .yn-table th.opt { text-align: center; width: 80px; }
+  .yn-table th.opt3 { text-align: center; width: 100px; }
+  .yn-table td {
+    padding: 11px 10px;
+    font-size: 14px;
+    color: #1A1A1A;
+    border-bottom: 0.5px solid #E0DED8;
+    vertical-align: middle;
+    line-height: 1.45;
+  }
+  .yn-table tr:last-child td { border-bottom: none; }
+  .yn-table td.opt, .yn-table td.opt3 { text-align: center; }
+  .yn-table input[type=radio] {
+    accent-color: #E87722;
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+  }
+
+  /* Frequency selector */
+  .freq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 8px;
+    margin: 0.5rem 0 1.5rem;
+  }
+  .freq-opt {
+    border: 0.5px solid #E0DED8;
+    border-radius: 8px;
+    padding: 10px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .freq-opt:hover { border-color: #E87722; background: #FDF8F4; }
+  .freq-opt.selected { border-color: #E87722; background: #FDF0E6; }
+  .freq-opt input { display: none; }
+  .freq-opt span { font-size: 13px; color: #1A1A1A; }
+
+  /* Star rating */
+  .rating-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+  .rating-table th {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+    padding: 6px 4px;
+    text-align: center;
+  }
+  .rating-table th.stmt { text-align: left; padding-left: 0; }
+  .rating-table td {
+    padding: 10px 4px;
+    border-bottom: 0.5px solid #E0DED8;
+    vertical-align: middle;
+  }
+  .rating-table tr:last-child td { border-bottom: none; }
+  .rating-table td.stmt {
+    font-size: 14px;
+    color: #1A1A1A;
+    padding-left: 0;
+    line-height: 1.45;
+  }
+  .star-row { display: flex; gap: 2px; justify-content: center; }
+  .star-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    padding: 2px;
+    line-height: 1;
+    color: #D8D6D0;
+    transition: transform 0.1s, color 0.1s;
+  }
+  .star-btn:hover { transform: scale(1.2); color: #E87722; }
+  .star-btn.lit { color: #E87722; }
+
+  /* Skill groups */
+  .skill-group { margin-bottom: 1.5rem; }
+  .skill-group:last-child { margin-bottom: 0; }
+  .skill-group-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    padding: 8px 0 6px;
+    border-bottom: 0.5px solid #E0DED8;
+    margin-bottom: 2px;
+  }
+
+  /* Open text */
+  .open-q { margin-bottom: 1.25rem; }
+  .open-q:last-child { margin-bottom: 0; }
+  .open-q label {
+    font-size: 14px;
+    color: #1A1A1A;
+    display: block;
+    margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .open-q textarea {
+    width: 100%;
+    border: 0.5px solid #E0DED8;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    color: #1A1A1A;
+    background: #fff;
+    resize: vertical;
+    min-height: 90px;
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .open-q textarea:focus { border-color: #E87722; }
+
+  /* Submit */
+  .submit-row { text-align: center; margin-top: 1.75rem; margin-bottom: 2rem; }
+  .submit-btn {
+    background: #E87722;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .submit-btn:hover { opacity: 0.88; }
+  .submit-btn:disabled { opacity: 0.6; cursor: default; }
+
+  .form-error {
+    display: none;
+    color: #C0392B;
+    font-size: 14px;
+    margin-bottom: 12px;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.5;
+  }
+
+  /* Success */
+  .success-msg {
+    display: none;
+    background: #fff;
+    border: 0.5px solid #E0DED8;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .success-msg i { font-size: 40px; color: #E87722; display: block; margin-bottom: 14px; }
+  .success-msg h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: #1A1A1A;
+    margin-bottom: 8px;
+  }
+  .success-msg p { font-size: 14px; color: #777; line-height: 1.6; }
+
+  @media (max-width: 540px) {
+    .info-grid { grid-template-columns: 1fr; }
+    .freq-grid { grid-template-columns: 1fr 1fr; }
+    .survey-header { padding: 1.5rem; }
+    .section { padding: 1.25rem 1rem; }
+    .yn-table th.opt3 { width: 72px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="survey-header">
+    <h1>B2B department survey</h1>
+    <p>The purpose of this questionnaire is to evaluate leadership confidence, process compliance, and team skill gaps to identify exactly where targeted training and better scripts are needed.</p>
+    <div class="info-grid">
+      <div class="info-field"><label>Name</label><input type="text" id="f-name" placeholder="First name"></div>
+      <div class="info-field"><label>Surname</label><input type="text" id="f-surname" placeholder="Last name"></div>
+      <div class="info-field"><label>Job role</label><input type="text" id="f-role" placeholder="Your role"></div>
+      <div class="info-field"><label>Island name</label><input type="text" id="f-island" placeholder="Island"></div>
+    </div>
+  </div>
+
+  <div id="survey-form">
+
+    <!-- Section 1 -->
+    <div class="section">
+      <div class="section-label">Section 1</div>
+      <div class="section-title">Scripting and training</div>
+      <div class="section-hint">Select yes or no for each statement.</div>
+      <table class="yn-table">
+        <thead><tr><th>Question</th><th class="opt">Yes</th><th class="opt">No</th></tr></thead>
+        <tbody>
+          <tr><td>Do you have the right script(s) for your team?</td><td class="opt"><input type="radio" name="s1q1" value="yes"></td><td class="opt"><input type="radio" name="s1q1" value="no"></td></tr>
+          <tr><td>Do you believe the script(s) is effective?</td><td class="opt"><input type="radio" name="s1q2" value="yes"></td><td class="opt"><input type="radio" name="s1q2" value="no"></td></tr>
+          <tr><td>Does your team use the script(s) daily?</td><td class="opt"><input type="radio" name="s1q3" value="yes"></td><td class="opt"><input type="radio" name="s1q3" value="no"></td></tr>
+          <tr><td>Do you need training on using the script(s) effectively?</td><td class="opt"><input type="radio" name="s1q4" value="yes"></td><td class="opt"><input type="radio" name="s1q4" value="no"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section">
+      <div class="section-label">Section 2</div>
+      <div class="section-title">Coaching and performance management</div>
+      <div class="section-hint">How often do you conduct coaching sessions?</div>
+      <div class="freq-grid" id="freq-grid">
+        <div class="freq-opt" onclick="selectFreq(this)"><input type="radio" name="freq" value="Daily"><span>Daily</span></div>
+        <div class="freq-opt" onclick="selectFreq(this)"><input type="radio" name="freq" value="Weekly"><span>Weekly</span></div>
+        <div class="freq-opt" onclick="selectFreq(this)"><input type="radio" name="freq" value="Bi-weekly"><span>Bi-weekly</span></div>
+        <div class="freq-opt" onclick="selectFreq(this)"><input type="radio" name="freq" value="Monthly"><span>Monthly</span></div>
+        <div class="freq-opt" onclick="selectFreq(this)"><input type="radio" name="freq" value="Only when issues arise"><span>Only when issues arise</span></div>
+      </div>
+      <div class="section-hint" style="margin-bottom:0.5rem;">Rate your confidence in each coaching area (1 = not confident, 5 = very confident).</div>
+      <table class="rating-table">
+        <thead><tr><th class="stmt">Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+        <tbody>
+          <tr><td class="stmt">I can deliver constructive feedback effectively</td><td colspan="5"><div class="star-row" data-key="c1"></div></td></tr>
+          <tr><td class="stmt">My coaching sessions result in improved performance</td><td colspan="5"><div class="star-row" data-key="c2"></div></td></tr>
+          <tr><td class="stmt">I consistently follow up on coaching actions</td><td colspan="5"><div class="star-row" data-key="c3"></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section">
+      <div class="section-label">Section 3</div>
+      <div class="section-title">Leadership and support</div>
+      <div class="section-hint">Rate your confidence in each leadership area (1 = not confident, 5 = very confident).</div>
+      <table class="rating-table">
+        <thead><tr><th class="stmt">Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+        <tbody>
+          <tr><td class="stmt">I am confident in my sales coaching ability</td><td colspan="5"><div class="star-row" data-key="l1"></div></td></tr>
+          <tr><td class="stmt">I am comfortable having difficult conversations</td><td colspan="5"><div class="star-row" data-key="l2"></div></td></tr>
+          <tr><td class="stmt">I can coach poor performance effectively</td><td colspan="5"><div class="star-row" data-key="l3"></div></td></tr>
+          <tr><td class="stmt">I can identify the root cause of underperformance</td><td colspan="5"><div class="star-row" data-key="l4"></div></td></tr>
+          <tr><td class="stmt">I know how to improve an agent's conversion rate</td><td colspan="5"><div class="star-row" data-key="l5"></div></td></tr>
+          <tr><td class="stmt">I know how to improve an agent's productivity</td><td colspan="5"><div class="star-row" data-key="l6"></div></td></tr>
+          <tr><td class="stmt">I have the tools needed to lead my team effectively</td><td colspan="5"><div class="star-row" data-key="l7"></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="section">
+      <div class="section-label">Section 4</div>
+      <div class="section-title">Team processes and compliance</div>
+      <div class="section-hint">Quick alignment checks on daily requirements.</div>
+      <table class="yn-table">
+        <thead><tr><th>Question</th><th class="opt">Yes</th><th class="opt">No</th><th class="opt3">Not always</th></tr></thead>
+        <tbody>
+          <tr><td>Daily targets are clearly communicated</td><td class="opt"><input type="radio" name="p1" value="yes"></td><td class="opt"><input type="radio" name="p1" value="no"></td><td class="opt3"><input type="radio" name="p1" value="not-always"></td></tr>
+          <tr><td>Agents understand their KPIs</td><td class="opt"><input type="radio" name="p2" value="yes"></td><td class="opt"><input type="radio" name="p2" value="no"></td><td class="opt3"><input type="radio" name="p2" value="not-always"></td></tr>
+          <tr><td>Call evaluations are completed consistently</td><td class="opt"><input type="radio" name="p3" value="yes"></td><td class="opt"><input type="radio" name="p3" value="no"></td><td class="opt3"><input type="radio" name="p3" value="not-always"></td></tr>
+          <tr><td>Coaching sessions are documented</td><td class="opt"><input type="radio" name="p4" value="yes"></td><td class="opt"><input type="radio" name="p4" value="no"></td><td class="opt3"><input type="radio" name="p4" value="not-always"></td></tr>
+          <tr><td>Team members follow the approved process</td><td class="opt"><input type="radio" name="p5" value="yes"></td><td class="opt"><input type="radio" name="p5" value="no"></td><td class="opt3"><input type="radio" name="p5" value="not-always"></td></tr>
+          <tr><td>Non-compliance is addressed promptly</td><td class="opt"><input type="radio" name="p6" value="yes"></td><td class="opt"><input type="radio" name="p6" value="no"></td><td class="opt3"><input type="radio" name="p6" value="not-always"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="section">
+      <div class="section-label">Section 5</div>
+      <div class="section-title">Team skill assessment</div>
+      <div class="section-hint">Rate your team's current skill level in each area (1 = not confident, 5 = very confident).</div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Systems</div>
+        <table class="rating-table">
+          <thead><tr><th class="stmt">Skill</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody>
+            <tr><td class="stmt">Capturing on CAMS</td><td colspan="5"><div class="star-row" data-key="sk1"></div></td></tr>
+            <tr><td class="stmt">CRM navigation</td><td colspan="5"><div class="star-row" data-key="sk2"></div></td></tr>
+            <tr><td class="stmt">Following system processes</td><td colspan="5"><div class="star-row" data-key="sk3"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Customer service</div>
+        <table class="rating-table">
+          <thead><tr><th class="stmt">Skill</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody>
+            <tr><td class="stmt">Managing difficult clients</td><td colspan="5"><div class="star-row" data-key="sk4"></div></td></tr>
+            <tr><td class="stmt">Handling complaints</td><td colspan="5"><div class="star-row" data-key="sk5"></div></td></tr>
+            <tr><td class="stmt">Explaining solutions clearly</td><td colspan="5"><div class="star-row" data-key="sk6"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Sales</div>
+        <table class="rating-table">
+          <thead><tr><th class="stmt">Skill</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody>
+            <tr><td class="stmt">Needs analysis</td><td colspan="5"><div class="star-row" data-key="sk7"></div></td></tr>
+            <tr><td class="stmt">Building rapport</td><td colspan="5"><div class="star-row" data-key="sk8"></div></td></tr>
+            <tr><td class="stmt">Objection handling</td><td colspan="5"><div class="star-row" data-key="sk9"></div></td></tr>
+            <tr><td class="stmt">Creating urgency</td><td colspan="5"><div class="star-row" data-key="sk10"></div></td></tr>
+            <tr><td class="stmt">Closing a sale</td><td colspan="5"><div class="star-row" data-key="sk11"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Product knowledge</div>
+        <table class="rating-table">
+          <thead><tr><th class="stmt">Skill</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody>
+            <tr><td class="stmt">Telematics</td><td colspan="5"><div class="star-row" data-key="sk12"></div></td></tr>
+            <tr><td class="stmt">Stolen vehicle recovery (SVR)</td><td colspan="5"><div class="star-row" data-key="sk13"></div></td></tr>
+            <tr><td class="stmt">Tag: anti-jamming technology</td><td colspan="5"><div class="star-row" data-key="sk14"></div></td></tr>
+            <tr><td class="stmt">Vision solutions</td><td colspan="5"><div class="star-row" data-key="sk15"></div></td></tr>
+            <tr><td class="stmt">Product differentiation vs competitors</td><td colspan="5"><div class="star-row" data-key="sk16"></div></td></tr>
+            <tr><td class="stmt">Value added services (VAS)</td><td colspan="5"><div class="star-row" data-key="sk17"></div></td></tr>
+            <tr><td class="stmt">Value added products (VAP)</td><td colspan="5"><div class="star-row" data-key="sk18"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 6 -->
+    <div class="section">
+      <div class="section-label">Section 6</div>
+      <div class="section-title">Leadership insight</div>
+      <div class="open-q">
+        <label>If you could solve ONE problem in your department immediately, what would it be?</label>
+        <textarea id="open1" placeholder="Share your thoughts..."></textarea>
+      </div>
+      <div class="open-q">
+        <label>What training would create the biggest improvement in results over the next 90 days?</label>
+        <textarea id="open2" placeholder="Share your thoughts..."></textarea>
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <p class="form-error" id="form-error"></p>
+      <button class="submit-btn" id="submit-btn" onclick="submitSurvey()">Submit survey</button>
+    </div>
+
+  </div>
+
+  <div class="success-msg" id="success-msg">
+    <i class="ti ti-circle-check"></i>
+    <h2>Thank you for completing the survey</h2>
+    <p>Your responses have been recorded. The results will be used to identify training priorities and process improvements across the B2B department.</p>
+  </div>
+
+</div>
+
+<!-- Supabase client library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // ---------------------------------------------------------------------------
+  // Supabase configuration
+  // ---------------------------------------------------------------------------
+  // SUPABASE_URL      -> your project URL (safe to expose publicly).
+  // SUPABASE_ANON_KEY -> the "anon public" / "publishable" key from
+  //                      Dashboard -> Project Settings -> API. It is designed
+  //                      for browser code and is limited by your Row Level
+  //                      Security rules (it can only INSERT a response).
+  //
+  // NEVER put your database password or the service_role / secret key here.
+  const SUPABASE_URL = 'https://jkzwxxcqdyrdhrnzanqe.supabase.co';
+  const SUPABASE_ANON_KEY = 'PASTE_YOUR_ANON_PUBLIC_KEY_HERE';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
+<script>
+  const ratings = {};
+
+  function buildStars() {
+    document.querySelectorAll('.star-row').forEach(function(row) {
+      var key = row.dataset.key;
+      ratings[key] = 0;
+      var html = '';
+      for (var i = 1; i <= 5; i++) {
+        html += '<button class="star-btn" data-key="' + key + '" data-val="' + i + '" onclick="setRating(\'' + key + '\',' + i + ')" aria-label="Rate ' + i + ' out of 5">&#9733;</button>';
+      }
+      row.innerHTML = html;
+    });
+  }
+
+  function setRating(key, val) {
+    ratings[key] = val;
+    document.querySelectorAll('.star-btn[data-key="' + key + '"]').forEach(function(btn) {
+      btn.classList.toggle('lit', parseInt(btn.dataset.val) <= val);
+    });
+  }
+
+  function selectFreq(el) {
+    document.querySelectorAll('#freq-grid .freq-opt').forEach(function(o) {
+      o.classList.remove('selected');
+    });
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+  }
+
+  // ---- Helpers to read form values -----------------------------------------
+  function getRadioValue(name) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : null;
+  }
+  function yesNoToBool(name) {
+    var v = getRadioValue(name);
+    if (v === 'yes') return true;
+    if (v === 'no') return false;
+    return null; // unanswered
+  }
+  function starValue(key) {
+    var v = ratings[key];
+    return v && v > 0 ? v : null; // 0 / unrated -> null
+  }
+  function textValue(id) {
+    var el = document.getElementById(id);
+    var v = el ? el.value.trim() : '';
+    return v === '' ? null : v;
+  }
+  function showFormError(msg) {
+    var el = document.getElementById('form-error');
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+  function clearFormError() {
+    var el = document.getElementById('form-error');
+    el.textContent = '';
+    el.style.display = 'none';
+  }
+
+  // ---- Submit --------------------------------------------------------------
+  async function submitSurvey() {
+    clearFormError();
+
+    // Build the row. Keys match the columns in b2b_survey_responses.
+    var payload = {
+      // Respondent info
+      first_name:  textValue('f-name'),
+      surname:     textValue('f-surname'),
+      job_role:    textValue('f-role'),
+      island_name: textValue('f-island'),
+
+      // Section 1 - Scripting and training (yes/no -> boolean)
+      s1_has_right_scripts:     yesNoToBool('s1q1'),
+      s1_scripts_effective:     yesNoToBool('s1q2'),
+      s1_team_uses_daily:       yesNoToBool('s1q3'),
+      s1_needs_script_training: yesNoToBool('s1q4'),
+
+      // Section 2 - Coaching and performance management
+      coaching_frequency:            getRadioValue('freq'),
+      coaching_feedback_rating:      starValue('c1'),
+      coaching_improves_perf_rating: starValue('c2'),
+      coaching_followup_rating:      starValue('c3'),
+
+      // Section 3 - Leadership and support
+      lead_coaching_confidence:     starValue('l1'),
+      lead_difficult_conversations: starValue('l2'),
+      lead_coach_poor_performance:  starValue('l3'),
+      lead_identify_root_cause:     starValue('l4'),
+      lead_improve_conversion:      starValue('l5'),
+      lead_improve_productivity:    starValue('l6'),
+      lead_has_tools:               starValue('l7'),
+
+      // Section 4 - Team processes and compliance (yes/no/not-always)
+      proc_targets_communicated:    getRadioValue('p1'),
+      proc_agents_understand_kpis:  getRadioValue('p2'),
+      proc_call_evals_consistent:   getRadioValue('p3'),
+      proc_coaching_documented:     getRadioValue('p4'),
+      proc_follows_process:         getRadioValue('p5'),
+      proc_noncompliance_addressed: getRadioValue('p6'),
+
+      // Section 5 - Team skill assessment
+      skill_capturing_cams:             starValue('sk1'),
+      skill_crm_navigation:             starValue('sk2'),
+      skill_following_system_processes: starValue('sk3'),
+      skill_managing_difficult_clients: starValue('sk4'),
+      skill_handling_complaints:        starValue('sk5'),
+      skill_explaining_solutions:       starValue('sk6'),
+      skill_needs_analysis:             starValue('sk7'),
+      skill_building_rapport:           starValue('sk8'),
+      skill_objection_handling:         starValue('sk9'),
+      skill_creating_urgency:           starValue('sk10'),
+      skill_closing_sale:               starValue('sk11'),
+      skill_telematics:                 starValue('sk12'),
+      skill_svr:                        starValue('sk13'),
+      skill_tag_antijamming:            starValue('sk14'),
+      skill_vision_solutions:           starValue('sk15'),
+      skill_product_differentiation:    starValue('sk16'),
+      skill_vas:                        starValue('sk17'),
+      skill_vap:                        starValue('sk18'),
+
+      // Section 6 - Leadership insight (open text)
+      insight_one_problem:     textValue('open1'),
+      insight_training_90days: textValue('open2')
+    };
+
+    // Required fields (match the NOT NULL columns in the database)
+    if (!payload.first_name || !payload.surname || !payload.island_name) {
+      showFormError('Please fill in your name, surname and island name before submitting.');
+      return;
+    }
+
+    var btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    try {
+      var result = await supabaseClient
+        .from('b2b_survey_responses')
+        .insert(payload);
+
+      if (result.error) {
+        if (result.error.code === '23505') {
+          // unique_violation -> this person already submitted
+          showFormError('A survey has already been submitted under this name and island.');
+        } else {
+          console.error('Supabase insert error:', result.error);
+          showFormError('Sorry, something went wrong saving your response. Please try again.');
+        }
+        btn.disabled = false;
+        btn.textContent = 'Submit survey';
+        return;
+      }
+
+      // Success -> show the thank-you message
+      document.getElementById('survey-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      showFormError('Network error - please check your connection and try again.');
+      btn.disabled = false;
+      btn.textContent = 'Submit survey';
+    }
+  }
+
+  buildStars();
+</script>
+</body>
+</html>
