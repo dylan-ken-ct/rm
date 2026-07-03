@@ -515,12 +515,6 @@
     var el = document.querySelector('input[name="' + name + '"]:checked');
     return el ? el.value : null;
   }
-  function yesNoToBool(name) {
-    var v = getRadioValue(name);
-    if (v === 'yes') return true;
-    if (v === 'no') return false;
-    return null; // unanswered
-  }
   function starValue(key) {
     var v = ratings[key];
     return v && v > 0 ? v : null; // 0 / unrated -> null
@@ -545,7 +539,8 @@
   async function submitSurvey() {
     clearFormError();
 
-    // Build the row. Keys match the columns in b2b_survey_responses.
+    // Build the row. Keys match the columns in b2b_survey_responses,
+    // named q<section>_<letter> to mirror the question numbering.
     var payload = {
       // Respondent info
       first_name:  textValue('f-name'),
@@ -553,58 +548,58 @@
       job_role:    textValue('f-role'),
       island_name: textValue('f-island'),
 
-      // Section 1 - Scripting and training (yes/no -> boolean)
-      s1_has_right_scripts:     yesNoToBool('s1q1'),
-      s1_scripts_effective:     yesNoToBool('s1q2'),
-      s1_team_uses_daily:       yesNoToBool('s1q3'),
-      s1_needs_script_training: yesNoToBool('s1q4'),
+      // Section 1 - Scripting and training (stores 'yes' / 'no')
+      q1_a: getRadioValue('s1q1'),
+      q1_b: getRadioValue('s1q2'),
+      q1_c: getRadioValue('s1q3'),
+      q1_d: getRadioValue('s1q4'),
 
       // Section 2 - Coaching and performance management
-      coaching_frequency:            getRadioValue('freq'),
-      coaching_feedback_rating:      starValue('c1'),
-      coaching_improves_perf_rating: starValue('c2'),
-      coaching_followup_rating:      starValue('c3'),
+      q2_a: getRadioValue('freq'),  // coaching frequency
+      q2_b: starValue('c1'),
+      q2_c: starValue('c2'),
+      q2_d: starValue('c3'),
 
       // Section 3 - Leadership and support
-      lead_coaching_confidence:     starValue('l1'),
-      lead_difficult_conversations: starValue('l2'),
-      lead_coach_poor_performance:  starValue('l3'),
-      lead_identify_root_cause:     starValue('l4'),
-      lead_improve_conversion:      starValue('l5'),
-      lead_improve_productivity:    starValue('l6'),
-      lead_has_tools:               starValue('l7'),
+      q3_a: starValue('l1'),
+      q3_b: starValue('l2'),
+      q3_c: starValue('l3'),
+      q3_d: starValue('l4'),
+      q3_e: starValue('l5'),
+      q3_f: starValue('l6'),
+      q3_g: starValue('l7'),
 
-      // Section 4 - Team processes and compliance (yes/no/not-always)
-      proc_targets_communicated:    getRadioValue('p1'),
-      proc_agents_understand_kpis:  getRadioValue('p2'),
-      proc_call_evals_consistent:   getRadioValue('p3'),
-      proc_coaching_documented:     getRadioValue('p4'),
-      proc_follows_process:         getRadioValue('p5'),
-      proc_noncompliance_addressed: getRadioValue('p6'),
+      // Section 4 - Team processes and compliance ('yes' / 'no' / 'not-always')
+      q4_a: getRadioValue('p1'),
+      q4_b: getRadioValue('p2'),
+      q4_c: getRadioValue('p3'),
+      q4_d: getRadioValue('p4'),
+      q4_e: getRadioValue('p5'),
+      q4_f: getRadioValue('p6'),
 
       // Section 5 - Team skill assessment
-      skill_capturing_cams:             starValue('sk1'),
-      skill_crm_navigation:             starValue('sk2'),
-      skill_following_system_processes: starValue('sk3'),
-      skill_managing_difficult_clients: starValue('sk4'),
-      skill_handling_complaints:        starValue('sk5'),
-      skill_explaining_solutions:       starValue('sk6'),
-      skill_needs_analysis:             starValue('sk7'),
-      skill_building_rapport:           starValue('sk8'),
-      skill_objection_handling:         starValue('sk9'),
-      skill_creating_urgency:           starValue('sk10'),
-      skill_closing_sale:               starValue('sk11'),
-      skill_telematics:                 starValue('sk12'),
-      skill_svr:                        starValue('sk13'),
-      skill_tag_antijamming:            starValue('sk14'),
-      skill_vision_solutions:           starValue('sk15'),
-      skill_product_differentiation:    starValue('sk16'),
-      skill_vas:                        starValue('sk17'),
-      skill_vap:                        starValue('sk18'),
+      q5_a: starValue('sk1'),
+      q5_b: starValue('sk2'),
+      q5_c: starValue('sk3'),
+      q5_d: starValue('sk4'),
+      q5_e: starValue('sk5'),
+      q5_f: starValue('sk6'),
+      q5_g: starValue('sk7'),
+      q5_h: starValue('sk8'),
+      q5_i: starValue('sk9'),
+      q5_j: starValue('sk10'),
+      q5_k: starValue('sk11'),
+      q5_l: starValue('sk12'),
+      q5_m: starValue('sk13'),
+      q5_n: starValue('sk14'),
+      q5_o: starValue('sk15'),
+      q5_p: starValue('sk16'),
+      q5_q: starValue('sk17'),
+      q5_r: starValue('sk18'),
 
       // Section 6 - Leadership insight (open text)
-      insight_one_problem:     textValue('open1'),
-      insight_training_90days: textValue('open2')
+      q6_a: textValue('open1'),
+      q6_b: textValue('open2')
     };
 
     // Required fields (match the NOT NULL columns in the database)
