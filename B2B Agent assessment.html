@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartrack B2B Agent Skills Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: #F5F5F3;
+    color: #1A1A1A;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .page { max-width: 720px; margin: 0 auto; }
+
+  .survey-header {
+    background: #E87722;
+    border-radius: 12px;
+    padding: 2rem 2rem 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .survey-header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .survey-header p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.65;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 1.25rem;
+  }
+  .info-field label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+  }
+  .info-field input, .info-field select {
+    width: 100%;
+    background: rgba(255,255,255,0.15);
+    border: 0.5px solid rgba(255,255,255,0.35);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #fff;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+  }
+  .info-field input::placeholder { color: rgba(255,255,255,0.5); }
+  .info-field select option { color: #1A1A1A; background: #fff; }
+  .info-field input:focus, .info-field select:focus {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.7);
+  }
+
+  .section {
+    background: #fff;
+    border: 0.5px solid #E0DED8;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #E87722;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #1A1A1A;
+    margin-bottom: 4px;
+  }
+  .section-hint {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .yn-table { width: 100%; border-collapse: collapse; }
+  .yn-table th {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+    padding: 6px 10px;
+    text-align: left;
+    border-bottom: 0.5px solid #E0DED8;
+  }
+  .yn-table th.opt { text-align: center; width: 80px; }
+  .yn-table th.opt3 { text-align: center; width: 100px; }
+  .yn-table td {
+    padding: 11px 10px;
+    font-size: 14px;
+    color: #1A1A1A;
+    border-bottom: 0.5px solid #E0DED8;
+    vertical-align: middle;
+    line-height: 1.45;
+  }
+  .yn-table tr:last-child td { border-bottom: none; }
+  .yn-table td.opt, .yn-table td.opt3 { text-align: center; }
+  .yn-table input[type=radio] {
+    accent-color: #E87722;
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+  }
+
+  .rating-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+  .rating-table th {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+    padding: 6px 4px;
+    text-align: center;
+  }
+  .rating-table th.stmt { text-align: left; padding-left: 0; }
+  .rating-table td {
+    padding: 10px 4px;
+    border-bottom: 0.5px solid #E0DED8;
+    vertical-align: middle;
+  }
+  .rating-table tr:last-child td { border-bottom: none; }
+  .rating-table td.stmt {
+    font-size: 14px;
+    color: #1A1A1A;
+    padding-left: 0;
+    line-height: 1.45;
+  }
+  .star-row { display: flex; gap: 2px; justify-content: center; }
+  .star-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    padding: 2px;
+    line-height: 1;
+    color: #D8D6D0;
+    transition: transform 0.1s, color 0.1s;
+  }
+  .star-btn:hover { transform: scale(1.2); color: #E87722; }
+  .star-btn.lit { color: #E87722; }
+
+  .skill-group { margin-bottom: 1.5rem; }
+  .skill-group:last-child { margin-bottom: 0; }
+  .skill-group-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    padding: 8px 0 6px;
+    border-bottom: 0.5px solid #E0DED8;
+    margin-bottom: 2px;
+  }
+
+  .submit-row { text-align: center; margin-top: 1.75rem; margin-bottom: 2rem; }
+  .submit-btn {
+    background: #E87722;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .submit-btn:hover { opacity: 0.88; }
+
+  .status-msg {
+    display: none;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 14px;
+    line-height: 1.5;
+    background: #FDF0E6;
+    border: 0.5px solid #E0DED8;
+    color: #1A1A1A;
+  }
+  .status-msg.error {
+    background: #FDECEC;
+    border-color: #E8B0B0;
+    color: #9B2C2C;
+  }
+  .success-msg {
+    display: none;
+    background: #fff;
+    border: 0.5px solid #E0DED8;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .success-msg i { font-size: 40px; color: #E87722; display: block; margin-bottom: 14px; }
+  .success-msg h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: #1A1A1A;
+    margin-bottom: 8px;
+  }
+  .success-msg p { font-size: 14px; color: #777; line-height: 1.6; }
+
+  @media (max-width: 540px) {
+    .info-grid { grid-template-columns: 1fr; }
+    .survey-header { padding: 1.5rem; }
+    .section { padding: 1.25rem 1rem; }
+    .yn-table th.opt3 { width: 72px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="survey-header">
+    <h1>B2B Agent Skills Assessment</h1>
+    <p>This assessment is designed to help us understand your confidence across key areas of your role. There are no right or wrong answers, be honest so we can better support your growth and development.</p>
+    <div class="info-grid">
+      <div class="info-field"><label>Name</label><input type="text" id="f-name" placeholder="First name"></div>
+      <div class="info-field"><label>Surname</label><input type="text" id="f-surname" placeholder="Last name"></div>
+      <div class="info-field"><label>Island / Team</label><input type="text" id="f-island" placeholder="Your island or team"></div>
+      <div class="info-field"><label>Date</label><input type="date" id="f-date"></div>
+    </div>
+  </div>
+
+  <div class="status-msg" id="form-status" role="status" aria-live="polite"></div>
+
+  <div id="survey-form">
+
+    <!-- Section 1: Scripting & Call Process -->
+    <div class="section">
+      <div class="section-label">Section 1</div>
+      <div class="section-title">Scripting and call process</div>
+      <div class="section-hint">Select yes or no for each statement.</div>
+      <table class="yn-table">
+        <thead><tr><th>Question</th><th class="opt">Yes</th><th class="opt">No</th></tr></thead>
+        <tbody>
+          <tr><td>I have access to the correct script(s) for my calls</td><td class="opt"><input type="radio" name="s1q1" value="yes"></td><td class="opt"><input type="radio" name="s1q1" value="no"></td></tr>
+          <tr><td>I understand how to use the script effectively</td><td class="opt"><input type="radio" name="s1q2" value="yes"></td><td class="opt"><input type="radio" name="s1q2" value="no"></td></tr>
+          <tr><td>I follow the script on every call</td><td class="opt"><input type="radio" name="s1q3" value="yes"></td><td class="opt"><input type="radio" name="s1q3" value="no"></td></tr>
+          <tr><td>I feel the script helps me perform better on calls</td><td class="opt"><input type="radio" name="s1q4" value="yes"></td><td class="opt"><input type="radio" name="s1q4" value="no"></td></tr>
+          <tr><td>I would benefit from additional scripting or call training</td><td class="opt"><input type="radio" name="s1q5" value="yes"></td><td class="opt"><input type="radio" name="s1q5" value="no"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 2: Daily Processes & Compliance -->
+    <div class="section">
+      <div class="section-label">Section 2</div>
+      <div class="section-title">Daily processes and compliance</div>
+      <div class="section-hint">How consistently do you follow each of the below?</div>
+      <table class="yn-table">
+        <thead><tr><th>Statement</th><th class="opt">Yes</th><th class="opt">No</th><th class="opt3">Not always</th></tr></thead>
+        <tbody>
+          <tr><td>I know my daily targets and work toward them actively</td><td class="opt"><input type="radio" name="p1" value="yes"></td><td class="opt"><input type="radio" name="p1" value="no"></td><td class="opt3"><input type="radio" name="p1" value="not-always"></td></tr>
+          <tr><td>I understand my KPIs and how they are measured</td><td class="opt"><input type="radio" name="p2" value="yes"></td><td class="opt"><input type="radio" name="p2" value="no"></td><td class="opt3"><input type="radio" name="p2" value="not-always"></td></tr>
+          <tr><td>I capture all required information correctly on every call</td><td class="opt"><input type="radio" name="p3" value="yes"></td><td class="opt"><input type="radio" name="p3" value="no"></td><td class="opt3"><input type="radio" name="p3" value="not-always"></td></tr>
+          <tr><td>I follow the approved call process from start to finish</td><td class="opt"><input type="radio" name="p4" value="yes"></td><td class="opt"><input type="radio" name="p4" value="no"></td><td class="opt3"><input type="radio" name="p4" value="not-always"></td></tr>
+          <tr><td>I complete all admin and system updates after each call</td><td class="opt"><input type="radio" name="p5" value="yes"></td><td class="opt"><input type="radio" name="p5" value="no"></td><td class="opt3"><input type="radio" name="p5" value="not-always"></td></tr>
+          <tr><td>I am aware of what non-compliance looks like in my role</td><td class="opt"><input type="radio" name="p6" value="yes"></td><td class="opt"><input type="radio" name="p6" value="no"></td><td class="opt3"><input type="radio" name="p6" value="not-always"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 3: Sales Skills -->
+    <div class="section">
+      <div class="section-label">Section 3</div>
+      <div class="section-title">Sales skills</div>
+      <div class="section-hint">Rate your own confidence in each area (1 = not confident, 5 = very confident). Be honest, this helps us support you better.</div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Core sales skills</div>
+        <table class="rating-table">
+          <thead><tr><th class="stmt">Skill</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody>
+            <tr><td class="stmt">Building rapport with a client quickly</td><td colspan="5"><div class="star-row" data-key="sa1"></div></td></tr>
+            <tr><td class="stmt">Conducting an effective needs analysis</td><td colspan="5"><div class="star-row" data-key="sa2"></div></td></tr>
+            <tr><td class="stmt">Presenting a solution clearly and confidently</td><td colspan="5"><div class="star-row" data-key="sa3"></div></td></tr>
+            <tr><td class="stmt">Handling objections without losing the client</td><td colspan="5"><div class="star-row" data-key="sa4"></div></td></tr>
+            <tr><td class="stmt">Creating urgency to move the client toward a decision</td><td colspan="5"><div class="star-row" data-key="sa5"></div></td></tr>
+            <tr><td class="stmt">Closing a sale confidently</td><td colspan="5"><div class="star-row" data-key="sa6"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Customer service</div>
+        <table class="rating-table">
+          <thead><tr><th class="stmt">Skill</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody>
+            <tr><td class="stmt">Managing difficult or frustrated clients</td><td colspan="5"><div class="star-row" data-key="cs1"></div></td></tr>
+            <tr><td class="stmt">Handling complaints professionally</td><td colspan="5"><div class="star-row" data-key="cs2"></div></td></tr>
+            <tr><td class="stmt">Explaining solutions in simple, clear language</td><td colspan="5"><div class="star-row" data-key="cs3"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 4: Product Knowledge -->
+    <div class="section">
+      <div class="section-label">Section 4</div>
+      <div class="section-title">Product knowledge</div>
+      <div class="section-hint">Rate how confident you are in explaining each product or concept to a client (1 = not confident, 5 = very confident).</div>
+
+      <table class="rating-table">
+        <thead><tr><th class="stmt">Product / Topic</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+        <tbody>
+          <tr><td class="stmt">Telematics</td><td colspan="5"><div class="star-row" data-key="pk1"></div></td></tr>
+          <tr><td class="stmt">Stolen vehicle recovery (SVR)</td><td colspan="5"><div class="star-row" data-key="pk2"></div></td></tr>
+          <tr><td class="stmt">Tag: anti-jamming technology</td><td colspan="5"><div class="star-row" data-key="pk3"></div></td></tr>
+          <tr><td class="stmt">Vision solutions</td><td colspan="5"><div class="star-row" data-key="pk4"></div></td></tr>
+          <tr><td class="stmt">How our products differ from competitors</td><td colspan="5"><div class="star-row" data-key="pk5"></div></td></tr>
+          <tr><td class="stmt">Value added services (VAS)</td><td colspan="5"><div class="star-row" data-key="pk6"></div></td></tr>
+          <tr><td class="stmt">Value added products (VAP)</td><td colspan="5"><div class="star-row" data-key="pk7"></div></td></tr>
+          <tr><td class="stmt">Capturing correctly on CAMS</td><td colspan="5"><div class="star-row" data-key="pk8"></div></td></tr>
+          <tr><td class="stmt">CRM navigation</td><td colspan="5"><div class="star-row" data-key="pk9"></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 5: Coaching Experience -->
+    <div class="section">
+      <div class="section-label">Section 5</div>
+      <div class="section-title">Your coaching experience</div>
+      <div class="section-hint">This section helps us understand how supported you feel. Please answer honestly, your responses are used to improve the coaching you receive.</div>
+      <table class="yn-table">
+        <thead><tr><th>Statement</th><th class="opt">Yes</th><th class="opt">No</th><th class="opt3">Not always</th></tr></thead>
+        <tbody>
+          <tr><td>I receive regular coaching sessions from my supervisor</td><td class="opt"><input type="radio" name="co1" value="yes"></td><td class="opt"><input type="radio" name="co1" value="no"></td><td class="opt3"><input type="radio" name="co1" value="not-always"></td></tr>
+          <tr><td>My coaching sessions happen at least once a week</td><td class="opt"><input type="radio" name="co2" value="yes"></td><td class="opt"><input type="radio" name="co2" value="no"></td><td class="opt3"><input type="radio" name="co2" value="not-always"></td></tr>
+          <tr><td>I find my coaching sessions helpful and relevant to my role</td><td class="opt"><input type="radio" name="co3" value="yes"></td><td class="opt"><input type="radio" name="co3" value="no"></td><td class="opt3"><input type="radio" name="co3" value="not-always"></td></tr>
+          <tr><td>The feedback I receive is clear and easy to act on</td><td class="opt"><input type="radio" name="co4" value="yes"></td><td class="opt"><input type="radio" name="co4" value="no"></td><td class="opt3"><input type="radio" name="co4" value="not-always"></td></tr>
+          <tr><td>I feel comfortable raising concerns or asking questions during coaching</td><td class="opt"><input type="radio" name="co5" value="yes"></td><td class="opt"><input type="radio" name="co5" value="no"></td><td class="opt3"><input type="radio" name="co5" value="not-always"></td></tr>
+          <tr><td>My performance has improved as a result of coaching</td><td class="opt"><input type="radio" name="co6" value="yes"></td><td class="opt"><input type="radio" name="co6" value="no"></td><td class="opt3"><input type="radio" name="co6" value="not-always"></td></tr>
+          <tr><td>Feedback from my coaching sessions is followed up on</td><td class="opt"><input type="radio" name="co7" value="yes"></td><td class="opt"><input type="radio" name="co7" value="no"></td><td class="opt3"><input type="radio" name="co7" value="not-always"></td></tr>
+          <tr><td>I know what I need to work on to improve my results</td><td class="opt"><input type="radio" name="co8" value="yes"></td><td class="opt"><input type="radio" name="co8" value="no"></td><td class="opt3"><input type="radio" name="co8" value="not-always"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="submit-row">
+      <button class="submit-btn" onclick="submitSurvey()">Submit assessment</button>
+    </div>
+
+  </div>
+
+  <div class="success-msg" id="success-msg">
+    <i class="ti ti-circle-check"></i>
+    <h2>Thank you for completing your assessment</h2>
+    <p>Your responses have been recorded. This information will be used to tailor training and support specifically for you and your team.</p>
+  </div>
+
+</div>
+
+<!-- Supabase client library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://jkzwxxcqdyrdhrnzanqe.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_41EO6wBdzso1vvtv3pnRaw_mB03uT62';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
+<script>
+  const ratings = {};
+  const formStatus = document.getElementById('form-status');
+  const surveyForm = document.getElementById('survey-form');
+  const successMsg = document.getElementById('success-msg');
+
+  function buildStars() {
+    document.querySelectorAll('.star-row').forEach(function(row) {
+      var key = row.dataset.key;
+      ratings[key] = 0;
+      var html = '';
+      for (var i = 1; i <= 5; i++) {
+        html += '<button class="star-btn" data-key="' + key + '" data-val="' + i + '" onclick="setRating(\'' + key + '\',' + i + ')" aria-label="Rate ' + i + ' out of 5">&#9733;</button>';
+      }
+      row.innerHTML = html;
+    });
+  }
+
+  function setRating(key, val) {
+    ratings[key] = val;
+    document.querySelectorAll('.star-btn[data-key="' + key + '"]').forEach(function(btn) {
+      btn.classList.toggle('lit', parseInt(btn.dataset.val) <= val);
+    });
+  }
+
+  function collectResponses() {
+    var payload = {
+      respondent_name: document.getElementById('f-name').value.trim(),
+      respondent_surname: document.getElementById('f-surname').value.trim(),
+      island_team: document.getElementById('f-island').value.trim(),
+      assessment_date: document.getElementById('f-date').value || null,
+      submission_source: 'web'
+    };
+
+    document.querySelectorAll('input[type="radio"]:checked').forEach(function(input) {
+      payload[input.name] = input.value;
+    });
+
+    Object.keys(ratings).forEach(function(key) {
+      if (ratings[key] > 0) {
+        payload[key] = ratings[key];
+      }
+    });
+
+    return payload;
+  }
+
+  async function submitSurvey() {
+    var submitBtn = document.querySelector('.submit-btn');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+    }
+
+    formStatus.textContent = 'Saving your assessment...';
+    formStatus.classList.remove('error');
+    formStatus.style.display = 'block';
+
+    try {
+      var result = await supabaseClient
+        .from('agent_assessment_answers')
+        .insert(collectResponses());
+
+      if (result.error) {
+        throw new Error(result.error.message || 'Unable to save your assessment right now.');
+      }
+
+      surveyForm.style.display = 'none';
+      successMsg.style.display = 'block';
+      formStatus.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      formStatus.textContent = error.message || 'Unable to save your assessment right now.';
+      formStatus.classList.add('error');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+      }
+    }
+  }
+
+  buildStars();
+</script>
+</body>
+</html>
